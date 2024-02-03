@@ -1,0 +1,40 @@
+version: '3.7'
+
+services:
+  fpm:
+    build:
+      context: ./docker
+      dockerfile: Dockerfile-php
+    environment:
+      - DATABASE_URL=postgresql://app:!ChangeMe!@database/app?serverVersion=16&charset=utf8"
+    volumes:
+      - ./:/var/www/project/:cached
+    networks:
+      - symfony
+  nginx:
+    build:
+      context: ./docker
+      dockerfile: Dockerfile-nginx
+    volumes:
+      - ./:/var/www/project/:cached
+    ports:
+      - 10302:80
+    networks:
+      - symfony
+  database:
+    image: postgres:${POSTGRES_VERSION:-16}-alpine
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:-app}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-!ChangeMe!}
+      POSTGRES_USER: ${POSTGRES_USER:-app}
+    volumes:
+      - database_data:/var/lib/postgresql/data:rw
+    networks:
+      - symfony
+
+networks:
+  symfony:
+
+volumes:
+  persistent:
+  database_data:
