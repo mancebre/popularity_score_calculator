@@ -50,7 +50,7 @@ This project calculates the popularity score of a given word by searching GitHub
 1. Clone the repository.
 2. Build and run Docker containers: `docker-compose up --build`
 3. Install dependencies using composer: `composer install`
-4. Set up your database: `symfony console doctrine:database:create --env=test && symfony console doctrine:migrations:migrate --env=test`
+4. Set up your database: `symfony console doctrine:migrations:migrate`
 
 ## Usage
 
